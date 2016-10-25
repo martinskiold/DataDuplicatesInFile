@@ -27,8 +27,8 @@ public class ConcurrentDuplicateCheck {
     {
         /*
         * Adjusts the size of each processblock so that it is a multiple of @lineSizeBytes, and at least @lineSizeBytes.
-        * (Each line in file consists of @lineSizeBytes, and therefor the processblocks must be multiples of this value
-        * in order to avoid that some lines being cut in half.
+        * (Each line in the file consists of @lineSizeBytes bytes, and therefore the processblocks must be multiples of
+        * this value in order to avoid that some lines is cut in half.
         */
         processBlockSize = (processBlockSize/lineSizeBytes);
         if(processBlockSize != 0)
@@ -58,12 +58,12 @@ public class ConcurrentDuplicateCheck {
             //System.out.println(res);
             if(res != null)
             {
-                //If duplicate
+                //If duplicates
                 return res;
             }
         }
 
-        //If no duplicate
+        //If no duplicates
         return null;
     }
 
@@ -82,7 +82,6 @@ public class ConcurrentDuplicateCheck {
         InputStream is = new FileInputStream(file);
         is.skip(start);
 
-
         BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String line = null;
         long byteCount = start;
@@ -93,9 +92,6 @@ public class ConcurrentDuplicateCheck {
             {
                 es.shutdownNow();
                 return line;
-
-                //Or: exit program directly
-                //System.exit(0);
             }
 
             //Print contents of each line and corresponding processblock

@@ -2,8 +2,8 @@ package com.martinskiold;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.ConcurrentHashMap;
 
+//Version: NormalExit
 public class Main {
 
     public static void main(String[] args) throws Exception {
