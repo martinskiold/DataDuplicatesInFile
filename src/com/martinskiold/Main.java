@@ -2,8 +2,8 @@ package com.martinskiold;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.ConcurrentHashMap;
 
+// Version: QuickExit
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -13,17 +13,10 @@ public class Main {
             Path filePath = Paths.get(args[0]);
 
             ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8, startTime);
+            //Creates 4 tasks that process 12 million bytes each.
+            dupCheck.processAllBlocks(4, 12000000);
 
-            String duplicate;
-            if((duplicate = dupCheck.processAllBlocks(4, 1200000)) != null)
-            {
-                System.out.println("Duplicate found: " + duplicate);
-            }
-            else
-            {
-                System.out.println("Duplicate not found.");
-            }
-
+            System.out.println("Duplicate not found.");
             System.out.println("Time passed " + ((double) (System.currentTimeMillis() - startTime)/1000));
         }
         else
