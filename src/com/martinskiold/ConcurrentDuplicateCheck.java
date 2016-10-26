@@ -11,15 +11,13 @@ import java.util.concurrent.*;
 public class ConcurrentDuplicateCheck {
     private File file;
     private ConcurrentHashMap<String, Boolean> hMap;
-    private long startTime;
     private int lineSizeBytes;
 
-    public ConcurrentDuplicateCheck(File file, int lineSizeBytes, long startTime)
+    public ConcurrentDuplicateCheck(File file, int lineSizeBytes)
     {
         this.file = file;
         this.lineSizeBytes = lineSizeBytes;
         this.hMap = new ConcurrentHashMap<String, Boolean>();
-        this.startTime = startTime;
     }
 
     public void processAllBlocks(int threadCount, int processBlockSize) throws Exception
@@ -79,8 +77,7 @@ public class ConcurrentDuplicateCheck {
             //Check for duplicates
             if(hMap.put(line, true) != null)
             {
-                System.out.println("Duplicate found: " + line);
-                System.out.println("Time passed " + ((double) (System.currentTimeMillis() - startTime)/1000));
+                System.out.println("Duplicate found.");
                 System.exit(0);
             }
 

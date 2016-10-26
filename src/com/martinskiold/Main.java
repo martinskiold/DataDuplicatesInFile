@@ -3,21 +3,19 @@ package com.martinskiold;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-// Version: QuickExit
+// Version: QuickExitNoTime
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        long startTime = System.currentTimeMillis();
         if(args.length != 0) {
             Path filePath = Paths.get(args[0]);
 
-            ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8, startTime);
+            ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8);
             //Creates 4 tasks that process 12 million bytes each.
             dupCheck.processAllBlocks(4, 12000000);
-
+            //If execution reaches to this place there was no duplicate in the file. (Because: System.exit(0) if duplicates found)
             System.out.println("Duplicate not found.");
-            System.out.println("Time passed " + ((double) (System.currentTimeMillis() - startTime)/1000));
         }
         else
         {
