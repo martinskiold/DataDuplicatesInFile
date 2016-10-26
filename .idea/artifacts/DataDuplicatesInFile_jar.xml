@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DataDuplicatesInFile:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DataDuplicatesInFile_jar</output-path>
+    <root id="archive" name="DataDuplicatesInFile.jar">
+      <element id="module-output" name="DataDuplicatesInFile" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
