@@ -15,7 +15,7 @@ public class Main {
             ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8, startTime);
 
             String duplicate;
-            if((duplicate = dupCheck.processAllBlocks(4, 1200000)) != null)
+            if((duplicate = dupCheck.processAllBlocks(4, 12000000)) != null)
             {
                 System.out.println("Duplicate found: " + duplicate);
             }
