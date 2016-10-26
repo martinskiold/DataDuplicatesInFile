@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         long startTime = System.currentTimeMillis();
-        if(args[0] != null) {
+        if(args.length != 0) {
             Path filePath = Paths.get(args[0]);
 
             ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8, startTime);
@@ -28,7 +28,7 @@ public class Main {
         }
         else
         {
-            System.out.println("Please provide the file as an argument to the program and make sure that the file resides in the same directory as the executable.");
+            System.out.println("Please provide a file as argument to the program and make sure that the file resides in the same directory as the executable.");
         }
     }
 }
