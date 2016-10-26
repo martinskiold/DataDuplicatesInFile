@@ -8,23 +8,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        long startTime = System.currentTimeMillis();
         if(args.length != 0) {
             Path filePath = Paths.get(args[0]);
 
-            ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8, startTime);
+            ConcurrentDuplicateCheck dupCheck = new ConcurrentDuplicateCheck(filePath.toFile(), 8);
 
-            String duplicate;
-            if((duplicate = dupCheck.processAllBlocks(4, 1200000)) != null)
+            if(dupCheck.processAllBlocks(4, 12000000))
             {
-                System.out.println("Duplicate found: " + duplicate);
+                System.out.println("Duplicate found");
             }
             else
             {
                 System.out.println("Duplicate not found.");
             }
-
-            System.out.println("Time passed " + ((double) (System.currentTimeMillis() - startTime)/1000));
         }
         else
         {

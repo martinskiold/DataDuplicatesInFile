@@ -11,19 +11,17 @@ import java.util.concurrent.*;
 public class ConcurrentDuplicateCheck {
     private File file;
     private ConcurrentHashMap<String, Boolean> hMap;
-    private long startTime;
     private int lineSizeBytes;
     private ExecutorService es;
 
-    public ConcurrentDuplicateCheck(File file, int lineSizeBytes, long startTime)
+    public ConcurrentDuplicateCheck(File file, int lineSizeBytes)
     {
         this.file = file;
         this.lineSizeBytes = lineSizeBytes;
         this.hMap = new ConcurrentHashMap<String, Boolean>();
-        this.startTime = startTime;
     }
 
-    public String processAllBlocks(int threadCount, int processBlockSize) throws Exception
+    public boolean processAllBlocks(int threadCount, int processBlockSize) throws Exception
     {
         /*
         * Adjusts the size of each processblock so that it is a multiple of @lineSizeBytes, and at least @lineSizeBytes.
@@ -41,43 +39,42 @@ public class ConcurrentDuplicateCheck {
         }
 
         int taskCount = (int) ((file.length() + processBlockSize - 1) / processBlockSize);
-        ArrayList<Callable<String>> tasks = new ArrayList<Callable<String>>(taskCount);
+        ArrayList<Callable<Boolean>> tasks = new ArrayList<Callable<Boolean>>(taskCount);
         for (int i = 0; i<taskCount; i++) {
             tasks.add(processBlockJob(i * processBlockSize, Math.min(file.length(), (i+1)*processBlockSize)));
         }
         es = Executors.newFixedThreadPool(threadCount);
-        List<Future<String>> results = es.invokeAll(tasks);
+        List<Future<Boolean>> results = es.invokeAll(tasks);
 
         if(!es.isShutdown())
         {
             es.shutdown();
         }
 
-        for (Future<String> result:results){
-            String res = result.get();
+        for (Future<Boolean> result:results){
             //System.out.println(res);
-            if(res != null)
+            if(result.get())
             {
                 //If duplicates
-                return res;
+                return true;
             }
         }
 
         //If no duplicates
-        return null;
+        return false;
     }
 
-    public Callable<String> processBlockJob(final long start, final long end)
+    public Callable<Boolean> processBlockJob(final long start, final long end)
     {
-        return new Callable<String>() {
+        return new Callable<Boolean>() {
             @Override
-            public String call() throws Exception {
+            public Boolean call() throws Exception {
                 return processBlock(start, end);
             }
         };
     }
 
-    public String processBlock(long start, long end) throws Exception
+    public boolean processBlock(long start, long end) throws Exception
     {
         InputStream is = new FileInputStream(file);
         is.skip(start);
@@ -91,7 +88,7 @@ public class ConcurrentDuplicateCheck {
             if(hMap.put(line, true) != null)
             {
                 es.shutdownNow();
-                return line;
+                return true;
             }
 
             //Print contents of each line and corresponding processblock
@@ -101,7 +98,7 @@ public class ConcurrentDuplicateCheck {
         }
 
         is.close();
-        return null;
+        return false;
     }
 
 }
