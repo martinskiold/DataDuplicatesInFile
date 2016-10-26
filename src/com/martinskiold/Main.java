@@ -3,7 +3,7 @@ package com.martinskiold;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-//Version: NormalExit
+//Version: NormalExitNoTime
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -15,7 +15,7 @@ public class Main {
 
             if(dupCheck.processAllBlocks(4, 12000000))
             {
-                System.out.println("Duplicate found");
+                System.out.println("Duplicate found.");
             }
             else
             {
